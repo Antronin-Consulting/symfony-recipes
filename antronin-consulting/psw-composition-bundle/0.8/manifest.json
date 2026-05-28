@@ -1,0 +1,32 @@
+{
+    "bundles": {
+        "AntroninConsulting\\PswCompositionBundle\\PswCompositionBundle": [
+            "all"
+        ]
+    },
+    "copy-from-recipe": {
+        "config/packages/psw_composition.yaml": "%CONFIG_DIR%/packages/psw_composition.yaml",
+        "assets/": "assets/"
+    },
+    "env": {
+        "PASSWORD_MINLENGTH": 4,
+        "PASSWORD_MAXLENGTH": 16,
+        "PASSWORD_MINUPPERCASE": 1,
+        "PASSWORD_UPPERCASE_PATTERN": "A-Z",
+        "PASSWORD_MINLOWERCASE": 1,
+        "PASSWORD_LOWERCASE_PATTERN": "a-z",
+        "PASSWORD_MINNUMBER": 1,
+        "PASSWORD_NUMBER_PATTERN": "0-9",
+        "PASSWORD_MINSPECIAL": 1,
+        "PASSWORD_SPECIALS_PATTERN": "+!%/=~¸÷×[]$ß#&@?,;:._-*'\""
+    },
+    "composer-scripts": {
+        "cache:clear": "symfony-cmd"
+    },
+    "gitignore": [
+        ".env"
+    ],
+    "aliases": [
+        "psw_composition"
+    ]
+}

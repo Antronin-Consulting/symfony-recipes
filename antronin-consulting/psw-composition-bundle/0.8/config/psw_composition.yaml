@@ -1,0 +1,21 @@
+#
+# File: \config\packages\psw_composition.yaml
+# Author: Peter Nagy <peter@antronin.consulting>
+# -----
+psw_composition:
+    length:
+        min: '%env(int:PASSWORD_MINLENGTH)%'
+        max: '%env(int:PASSWORD_MAXLENGTH)%'
+    contents:
+        uppercase:
+            min: '%env(int:PASSWORD_MINUPPERCASE)%'
+            pattern: '%env(PASSWORD_UPPERCASE_PATTERN)%'
+        lowercase:
+            min: '%env(int:PASSWORD_MINLOWERCASE)%'
+            pattern: '%env(PASSWORD_LOWERCASE_PATTERN)%'
+        number:
+            min: '%env(int:PASSWORD_MINNUMBER)%'
+            pattern: '%env(PASSWORD_NUMBER_PATTERN)%'
+        special:
+            min: '%env(int:PASSWORD_MINSPECIAL)%'
+            pattern: '%env(PASSWORD_SPECIALS_PATTERN)%'
