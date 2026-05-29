@@ -5,8 +5,10 @@
         ]
     },
     "copy-from-recipe": {
-        "config/packages/psw_composition.yaml": "%CONFIG_DIR%/packages/psw_composition.yaml",
-        "assets/": "assets/"
+        "config/packages/psw_composition.yaml": "%CONFIG_DIR%/packages/psw_composition.yaml"
+    },
+    "copy-from-package": {
+        "assets/controllers/": "assets/controllers/"
     },
     "env": {
         "PASSWORD_MINLENGTH": 4,
