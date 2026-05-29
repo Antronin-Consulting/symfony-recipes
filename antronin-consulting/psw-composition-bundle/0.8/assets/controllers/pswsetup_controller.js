@@ -5,7 +5,7 @@
  */
 /* stimulusFetch: 'lazy' */
 import { Controller } from "@hotwired/stimulus"
-import { trans } from "assets/translator.js";
+import { trans } from "../translator.js";
 
 export default class extends Controller {
     static values = { setup: String }

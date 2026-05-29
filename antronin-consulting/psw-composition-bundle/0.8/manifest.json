@@ -22,7 +22,7 @@
     },
     "composer-scripts": {
         "cache:clear": "symfony-cmd",
-        "cache:warm": "symfony-cmd"
+        "cache:warmup": "symfony-cmd"
     },
     "gitignore": [
         ".env"
