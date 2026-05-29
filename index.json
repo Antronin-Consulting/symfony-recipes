@@ -6,7 +6,8 @@
     "recipes": {
         "antronin-consulting/psw-composition-bundle": [
             "0.2",
-            "0.5"
+            "0.5",
+            "0.8"
         ],
         "antronin-consulting/psw-expiration-bundle": [
             "0.8",
