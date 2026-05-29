@@ -5,9 +5,7 @@
         ]
     },
     "copy-from-recipe": {
-        "config/packages/psw_composition.yaml": "%CONFIG_DIR%/packages/psw_composition.yaml"
-    },
-    "copy-from-package": {
+        "config/packages/psw_composition.yaml": "%CONFIG_DIR%/packages/psw_composition.yaml",
         "assets/controllers/": "assets/controllers/"
     },
     "env": {
