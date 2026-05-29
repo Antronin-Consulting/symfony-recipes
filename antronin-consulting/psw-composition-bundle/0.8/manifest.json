@@ -23,11 +23,8 @@
         "PASSWORD_SPECIALS_PATTERN": "+!%/=~¸÷×[]$ß#&@?,;:._-*'\""
     },
     "composer-scripts": {
-        "importmap:require": "symfony-cmd",
-        "importmap:install": "symfony-cmd",
         "cache:clear": "symfony-cmd",
-        "cache:warm": "symfony-cmd",
-        "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        "cache:warm": "symfony-cmd"
     },
     "gitignore": [
         ".env"
