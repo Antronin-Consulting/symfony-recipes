@@ -5,64 +5,69 @@
  */
 /* stimulusFetch: 'lazy' */
 import { Controller } from "@hotwired/stimulus"
-import { trans } from "@symfony/translation";
+import { trans } from "../translator.js";
 
 export default class extends Controller {
     static values = { setup: String }
     static targets = ['psw_setup_display'];
 
     connect() {
-        this.choose = this._trans('choose');
+        this.choose = this._trans('profile.password.choose');
         this.setup = JSON.parse(atob(this.setupValue));
-        if (this.setup.content.lowercase.enabled) {
-            this.minLowercase = parseInt(this.setup.content.lowercase.min);
-            this.lowercasePattern = new RegExp('[' + this.setup.content.lowercase.pattern + ']{' + this.minLowercase + ',}', 'u');
+        if (this.setup.contents.lowercase.enabled) {
+            this.minLowercase = parseInt(this.setup.contents.lowercase.min);
+            this.lowercasePattern = new RegExp('[' + this.setup.contents.lowercase.pattern + ']{' + this.minLowercase + ',}', 'u');
         }
-        if (this.setup.content.uppercase.enabled) {
-            this.minUppercase = parseInt(this.setup.content.uppercase.min);
-            this.uppercasePattern = new RegExp('[' + this.setup.content.uppercase.pattern + ']{' + this.minUppercase + ',}', 'u');
+        if (this.setup.contents.uppercase.enabled) {
+            this.minUppercase = parseInt(this.setup.contents.uppercase.min);
+            this.uppercasePattern = new RegExp('[' + this.setup.contents.uppercase.pattern + ']{' + this.minUppercase + ',}', 'u');
         }
-        if (this.setup.content.number.enabled) {
-            this.minNumber = parseInt(this.setup.content.number.min);
-            this.numberPattern = new RegExp('[' + this.setup.content.number.pattern + ']{' + this.minNumber + ',}', 'u');
+        if (this.setup.contents.number.enabled) {
+            this.minNumber = parseInt(this.setup.contents.number.min);
+            this.numberPattern = new RegExp('[' + this.setup.contents.number.pattern + ']{' + this.minNumber + ',}', 'u');
         }
-        if (this.setup.content.special.enabled) {
-            this.minSpecial = parseInt(this.setup.content.special.min);
-            this.specialPattern = new RegExp('[' + this.setup.content.special.pattern + ']{' + this.minSpecial + ',}', 'u');
+        if (this.setup.contents.special.enabled) {
+            this.minSpecial = parseInt(this.setup.contents.special.min);
+            this.specialPattern = new RegExp('[' + RegExp.escape(this.setup.contents.special.pattern) + ']{' + this.minSpecial + ',}', 'u');
         }
         this.input = this.element.getElementsByTagName('input')[0];
 
     }
 
     calc() {
-        this.targets.psw_setup_display.innerHTML = '';
+        this.psw_setup_displayTarget.innerHTML = '';
         this.msgs = [];
         this._checkLength(this.setup.length.min, this.setup.length.max).forEach(el => this.msgs.push(el));
-        this._checkPattern('lowercase');
-        this._checkPattern('uppercase');
-        this._checkPattern('number');
-        this._checkPattern('special');
+        this.msgs.push(this._checkPattern('lowercase'));
+        this.msgs.push(this._checkPattern('uppercase'));
+        this.msgs.push(this._checkPattern('number'));
+        this.msgs.push(this._checkPattern('special'));
         if (this.msgs.length > 0) {
             let chooseMsg = document.createElement('p');
-            chooseMsg.appendChild(document.createTextNode(this._trans('choose')));
-            this.targets.psw_setup_display.appendChild(chooseMsg);
+            chooseMsg.classList.add('text--color-dark-grey', 'text--size-18', 'text--align-left');
+            chooseMsg.style.paddingLeft = '60px';
+            chooseMsg.appendChild(document.createTextNode(this.choose));
+            this.psw_setup_displayTarget.appendChild(chooseMsg);
             let list = document.createElement('ul');
+            list.classList.add('text--color-dark-grey', 'text--size-16', 'text--align-left');
+            list.style.listStyle = 'circle';
+            list.style.paddingLeft = '100px';
             this.msgs.forEach(el => list.appendChild(el));
-            this.targets.psw_setup_display.appendChild(list);
+            this.psw_setup_displayTarget.appendChild(list);
         }
     }
 
     _successMsg(msg) {
         let el = document.createElement('li');
-        el.classList.add('text-success');
         el.appendChild(document.createTextNode(msg));
         return el;
     }
 
     _errorMsg(msg) {
         let el = document.createElement('li');
-        el.classList.add('text-danger');
-        el.appendChild(document.createTextNode(msg));
+        let b = document.createElement('b');
+        b.appendChild(document.createTextNode(msg));
+        el.appendChild(b);
         return el;
     }
     /**
@@ -78,9 +83,10 @@ export default class extends Controller {
             return;
         }
 
-        let minMsg = 'min_length';
-        let maxMsg = 'max_length';
+        let minMsg = 'profile.password.min_length';
+        let maxMsg = 'profile.password.max_length';
         let res = [];
+        let msg = '';
 
         if (min > 0) {
             msg = this._trans(minMsg, { min: min });
@@ -111,10 +117,11 @@ export default class extends Controller {
      * @return string
      */
     _checkPattern(type) {
-        if (!this.setup.content[type].enabled) {
+        if (!this.setup.contents[type].enabled) {
             return;
         }
-        msg = this._trans('min_' + type, { min: this.setup.content[type].min });
+        let msg = '';
+        msg = this._trans('profile.password.min_' + type, { min: this.setup.contents[type].min });
         if (this[type + 'Pattern'].test(this.input.value)) {
             return this._successMsg(msg);
         } else {
@@ -123,11 +130,6 @@ export default class extends Controller {
     }
 
     _trans(msg, params = {}, domain = 'messages', locale = null) {
-        try {
-            return trans(msg, params, domain, locale);
-        }
-        catch (e) {
-            return msg;
-        }
+        return trans(msg, params, domain, locale);
     }
 }
